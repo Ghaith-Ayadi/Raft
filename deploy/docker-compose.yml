@@ -1,0 +1,35 @@
+# Shame's PocketBase. Run from a checkout of this repo on the box:
+#   cd <checkout>/deploy && docker compose up -d
+# Joins the box's shared `web` network; no `ports:`, only the reverse proxy
+# is reachable from outside.
+name: shame
+
+services:
+  pocketbase:
+    image: ghcr.io/muchobien/pocketbase:0.40.4
+    container_name: pocketbase-shame
+    restart: unless-stopped
+    env_file: /srv/shame/.env
+    # Args starting with "-" are appended to `serve` by the image's entrypoint.
+    # automigrate off: schema changes are committed files in ../pb, never
+    # dashboard edits that exist only on the box.
+    command: ["--automigrate=false", "--encryptionEnv=PB_ENCRYPTION_KEY"]
+    volumes:
+      - /srv/shame/pb_data:/pb_data
+      - ../pb/pb_migrations:/pb_migrations:ro
+      - ../pb/pb_hooks:/pb_hooks:ro
+    networks: [web]
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8090/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+networks:
+  web:
+    external: true
