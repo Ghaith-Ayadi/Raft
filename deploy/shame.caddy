@@ -2,12 +2,12 @@
 # /api/* and the dashboard go to PocketBase; everything else is forwarded to the
 # Vercel deployment. No serverless routes yet (no uploads).
 # Drop into the reverse proxy's sites directory once DNS exists and the
-# Vercel alias is known (replace shame.vercel.app below).
+# Vercel alias is shame-lime.vercel.app (project "shame").
 shame.ayadighaith.com {
 	route {
 		reverse_proxy /api/* pocketbase-shame:8090
 		reverse_proxy /_/* pocketbase-shame:8090
-		reverse_proxy https://shame.vercel.app {
+		reverse_proxy https://shame-lime.vercel.app {
 			header_up Host {upstream_hostport}
 		}
 	}

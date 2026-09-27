@@ -9,7 +9,8 @@
 
 ## Next
 
-- [ ] Vercel project, DNS, bring the PocketBase container up (README "Deploy")
+- [x] Vercel project `shame` (alias shame-lime.vercel.app), `VITE_PB_URL` set
+- [ ] DNS, bring the PocketBase container up (README "Deploy")
 - [ ] Reorder habits (drag in edit mode; `position` already exists)
 - [ ] Code-split to trim the bundle (192 KB gzipped today, `motion` and react-aria are most of it)
 
