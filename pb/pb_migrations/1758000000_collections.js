@@ -1,5 +1,5 @@
 /// <reference path="../pb_data/types.d.ts" />
-// Shame: habits, and the taps that log them.
+// Timber: habits, and the taps that log them.
 //
 // Ids are PocketBase record ids minted on the client (15 chars, [a-z0-9]), the
 // Propaganda pattern: a habit logged offline already has its final id, so a log

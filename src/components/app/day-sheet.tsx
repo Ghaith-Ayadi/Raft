@@ -1,6 +1,6 @@
 import { Trash01 } from "@untitledui/icons";
 import { Sheet } from "@/components/app/sheet";
-import { useHabits, useLogs } from "@/hooks/use-shame";
+import { useHabits, useLogs } from "@/hooks/use-timber";
 import { deleteLog, logHabit, restoreLog } from "@/lib/actions";
 import { dayLabel, timeLabel } from "@/lib/days";
 import { tint } from "@/lib/palette";

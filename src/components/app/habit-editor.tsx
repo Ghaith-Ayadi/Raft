@@ -4,7 +4,7 @@ import { Button } from "@/components/base/buttons/button";
 import { Input } from "@/components/base/input/input";
 import { type HabitDraft, createHabit, deleteHabit, updateHabit } from "@/lib/actions";
 import { COLORS, EMOJIS, tint } from "@/lib/palette";
-import type { Habit } from "@/types/shame";
+import type { Habit } from "@/types/timber";
 import { cx } from "@/utils/cx";
 
 interface HabitEditorProps {

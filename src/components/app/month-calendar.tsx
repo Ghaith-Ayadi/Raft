@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight } from "@untitledui/icons";
 import { DaySheet } from "@/components/app/day-sheet";
-import { useHabits, useLogs } from "@/hooks/use-shame";
+import { useHabits, useLogs } from "@/hooks/use-timber";
 import { WEEKDAYS, monthGrid, monthLabel, todayKey } from "@/lib/days";
-import type { Habit } from "@/types/shame";
+import type { Habit } from "@/types/timber";
 import { cx } from "@/utils/cx";
 
 const MAX_MARKS = 4;

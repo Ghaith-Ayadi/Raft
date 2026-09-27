@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import { tint } from "@/lib/palette";
-import type { Habit } from "@/types/shame";
+import type { Habit } from "@/types/timber";
 import { cx } from "@/utils/cx";
 
 interface HabitTileProps {

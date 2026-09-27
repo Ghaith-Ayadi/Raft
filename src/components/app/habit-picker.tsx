@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { Plus } from "@untitledui/icons";
 import { HabitTile } from "@/components/app/habit-tile";
-import { useHabits, useLogs } from "@/hooks/use-shame";
+import { useHabits, useLogs } from "@/hooks/use-timber";
 import { deleteLog, logHabit } from "@/lib/actions";
 import { todayKey } from "@/lib/days";
 import { useToast } from "@/providers/toast-provider";
-import type { Habit } from "@/types/shame";
+import type { Habit } from "@/types/timber";
 
 interface HabitPickerProps {
     isEditing: boolean;

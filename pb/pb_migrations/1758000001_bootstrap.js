@@ -4,7 +4,7 @@
 // skipped when its variables are absent, so the same file works on a laptop
 // with no secrets. Idempotent: rerunning changes nothing.
 //
-// Env (from /srv/shame/.env on the box, never committed):
+// Env (from /srv/timber/.env on the box, never committed):
 //   PB_SUPERUSER_EMAIL, PB_SUPERUSER_PASSWORD
 //   PB_APP_NAME, PB_APP_URL
 //   PB_SMTP_HOST, PB_SMTP_PORT, PB_SMTP_USERNAME, PB_SMTP_PASSWORD, PB_SENDER_ADDRESS, PB_SENDER_NAME

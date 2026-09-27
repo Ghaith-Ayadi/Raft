@@ -1,6 +1,6 @@
 {
-  "name": "Shame",
-  "short_name": "Shame",
+  "name": "Timber",
+  "short_name": "Timber",
   "description": "A personal habit tracker. Tap to log, see the month.",
   "start_url": "/",
   "display": "standalone",
