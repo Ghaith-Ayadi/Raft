@@ -18,6 +18,13 @@ color), tap one to log it, see the month on a calendar. Built from Genesis
 - **Sign-in is Google only** (`authWithOAuth2({ provider: "google" })`). No
   passwords, no email codes.
 
+## Hard rule: nothing that costs money without explicit confirmation
+
+Sessions may hold Vercel and Cloudflare credentials. Never create, upgrade or
+change anything that can bill the owner (paid plans or add-ons, usage beyond a
+free tier, domains, seats, paid features) until the owner has explicitly
+confirmed that exact action in the conversation. Ask first, naming the cost.
+
 ## Data model and sync
 
 - Collections `habits` (title, emoji, color, position) and `logs` (habit,
