@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import { dayKey, noonOf } from "@/lib/days";
 import { newId } from "@/lib/pocketbase";
 import { scheduleSync } from "@/lib/sync";
-import type { Habit, Log } from "@/types/shame";
+import type { Habit, Log } from "@/types/timber";
 
 // Every local write goes through here: touch Dexie, bump `updatedAt`, schedule
 // a sync. The UI never waits on the network.

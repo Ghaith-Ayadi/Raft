@@ -1,6 +1,6 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "@/lib/db";
-import type { Habit, Log } from "@/types/shame";
+import type { Habit, Log } from "@/types/timber";
 
 const EMPTY_HABITS: Habit[] = [];
 const EMPTY_LOGS: Log[] = [];

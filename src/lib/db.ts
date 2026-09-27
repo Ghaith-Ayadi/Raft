@@ -1,18 +1,18 @@
 import Dexie, { type Table } from "dexie";
-import type { Habit, Log } from "@/types/shame";
+import type { Habit, Log } from "@/types/timber";
 
 interface SyncMetaRow {
     key: string;
     value: unknown;
 }
 
-class ShameDB extends Dexie {
+class TimberDB extends Dexie {
     habits!: Table<Habit, string>;
     logs!: Table<Log, string>;
     syncMeta!: Table<SyncMetaRow, string>;
 
     constructor() {
-        super("shame");
+        super("timber");
         this.version(1).stores({
             habits: "id, position, updatedAt",
             logs: "id, day, habitId, updatedAt",
@@ -21,4 +21,4 @@ class ShameDB extends Dexie {
     }
 }
 
-export const db = new ShameDB();
+export const db = new TimberDB();

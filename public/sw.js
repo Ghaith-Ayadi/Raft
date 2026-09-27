@@ -1,12 +1,12 @@
-// Shame service worker.
+// Timber service worker.
 //   - Navigations: network-first, fall back to the cached shell, so new deploys
 //     land immediately and the app still opens offline.
 //   - /assets/* (hashed JS/CSS) and /icons/*: cache-first.
 //   - /api/* (PocketBase: auth, realtime, records) and other origins: never touched.
 
 const VERSION = "v1";
-const SHELL = `shame-shell-${VERSION}`;
-const ASSETS = `shame-assets-${VERSION}`;
+const SHELL = `timber-shell-${VERSION}`;
+const ASSETS = `timber-assets-${VERSION}`;
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(SHELL).then((cache) => cache.add("/")));
