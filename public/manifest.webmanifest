@@ -1,6 +1,6 @@
 {
-  "name": "Timber",
-  "short_name": "Timber",
+  "name": "Raft",
+  "short_name": "Raft",
   "description": "A personal habit tracker. Tap to log, see the month.",
   "start_url": "/",
   "display": "standalone",

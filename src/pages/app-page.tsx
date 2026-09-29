@@ -5,7 +5,7 @@ import { HabitEditor } from "@/components/app/habit-editor";
 import { HabitPicker } from "@/components/app/habit-picker";
 import { MonthCalendar } from "@/components/app/month-calendar";
 import { ToastContainer } from "@/components/app/toast";
-import type { Habit } from "@/types/timber";
+import type { Habit } from "@/types/raft";
 import { cx } from "@/utils/cx";
 
 type Tab = "log" | "calendar";
@@ -24,7 +24,7 @@ export function AppPage() {
         <div className="flex min-h-dvh flex-col bg-primary">
             <header className="sticky top-0 z-30 border-b border-secondary bg-primary/90 pt-[env(safe-area-inset-top)] backdrop-blur">
                 <div className="mx-auto flex h-14 max-w-3xl items-center gap-2 px-4">
-                    <h1 className="text-lg font-semibold text-primary">Timber</h1>
+                    <h1 className="text-lg font-semibold text-primary">Raft</h1>
 
                     <nav className="ml-4 hidden gap-1 sm:flex">
                         {TABS.map((t) => (
