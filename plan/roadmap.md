@@ -9,9 +9,9 @@
 
 ## Next
 
-- [x] Vercel project `timber` (alias timber-ayadi.vercel.app), `VITE_PB_URL` set
-- [x] R2 bucket `bedrock-backups-timber` (EEUR, objects expire after 30 days)
-- [x] DNS: A `timber.ayadighaith.com` → 62.238.103.8 (Bedrock box), DNS only
+- [x] Vercel project `raft` (alias raft-ayadi.vercel.app), `VITE_PB_URL` set
+- [x] R2 bucket `bedrock-backups-raft` (EEUR, objects expire after 30 days)
+- [x] DNS: A `raft.ayadighaith.com` → 62.238.103.8 (Bedrock box), DNS only
 - [ ] Bring the PocketBase container up (README "Deploy")
 - [ ] Reorder habits (drag in edit mode; `position` already exists)
 - [ ] Code-split to trim the bundle (192 KB gzipped today, `motion` and react-aria are most of it)

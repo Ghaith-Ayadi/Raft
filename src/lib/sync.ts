@@ -2,7 +2,7 @@ import type { Table } from "dexie";
 import { ClientResponseError } from "pocketbase";
 import { db } from "@/lib/db";
 import { pb, pbDateToMs } from "@/lib/pocketbase";
-import type { Habit, Log } from "@/types/timber";
+import type { Habit, Log } from "@/types/raft";
 
 // Sync between the local Dexie cache and PocketBase.
 //

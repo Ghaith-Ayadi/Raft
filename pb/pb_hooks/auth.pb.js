@@ -1,6 +1,6 @@
 /// <reference path="../pb_data/types.d.ts" />
 // Sign-in policy: Google only. Applied on every start from the environment, so
-// adding PB_GOOGLE_CLIENT_ID / PB_GOOGLE_CLIENT_SECRET to /srv/timber/.env and
+// adding PB_GOOGLE_CLIENT_ID / PB_GOOGLE_CLIENT_SECRET to /srv/raft/.env and
 // restarting is all it takes. Until those exist, password auth stays on as the
 // only method (PocketBase refuses an auth collection with no method at all).
 // Email OTP and MFA are off unconditionally.
