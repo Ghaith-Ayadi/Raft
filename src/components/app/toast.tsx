@@ -16,18 +16,23 @@ export function ToastContainer() {
                         transition={{ duration: 0.15 }}
                         className="pointer-events-auto flex items-center gap-4 rounded-xl bg-primary-solid py-2.5 pr-2.5 pl-4 text-sm font-medium text-white shadow-lg"
                     >
-                        <span>{toast.message}</span>
-                        {toast.action && (
-                            <button
-                                type="button"
-                                className="cursor-pointer rounded-lg px-2 py-1 font-semibold text-white/80 hover:bg-white/10 hover:text-white"
-                                onClick={() => {
-                                    toast.action?.onAction();
-                                    dismiss(toast.id);
-                                }}
-                            >
-                                {toast.action.label}
-                            </button>
+                        <span className="min-w-0 truncate">{toast.message}</span>
+                        {toast.actions.length > 0 && (
+                            <span className="flex shrink-0 gap-1">
+                                {toast.actions.map((action) => (
+                                    <button
+                                        key={action.label}
+                                        type="button"
+                                        className="cursor-pointer rounded-lg px-2 py-1 font-semibold text-white/80 hover:bg-white/10 hover:text-white"
+                                        onClick={() => {
+                                            action.onAction();
+                                            dismiss(toast.id);
+                                        }}
+                                    >
+                                        {action.label}
+                                    </button>
+                                ))}
+                            </span>
                         )}
                     </motion.div>
                 ))}
