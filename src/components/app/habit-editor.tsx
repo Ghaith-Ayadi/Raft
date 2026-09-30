@@ -6,7 +6,7 @@ import { Input } from "@/components/base/input/input";
 import { type HabitDraft, createHabit, deleteHabit, updateHabit } from "@/lib/actions";
 import { COLORS, tint } from "@/lib/palette";
 import { newId } from "@/lib/pocketbase";
-import type { Habit, HabitKind } from "@/types/timber";
+import type { Habit, HabitKind } from "@/types/raft";
 import { cx } from "@/utils/cx";
 
 interface HabitEditorProps {

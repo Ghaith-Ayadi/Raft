@@ -3,7 +3,7 @@
 // runs once, so anything that may arrive later (R2 keys, SMTP) belongs here.
 // Idempotent. Adapted from the other apps' copy of this file.
 //
-// Env (from /srv/timber/.env):
+// Env (from /srv/raft/.env):
 //   PB_APP_NAME, PB_APP_URL, PB_SENDER_ADDRESS, PB_SENDER_NAME
 //   PB_SMTP_HOST, PB_SMTP_PORT, PB_SMTP_USERNAME, PB_SMTP_PASSWORD   (optional)
 //   PB_S3_ENDPOINT, PB_S3_BUCKET, PB_S3_ACCESS_KEY, PB_S3_SECRET    (backups → R2)

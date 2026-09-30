@@ -3,12 +3,12 @@ import { Plus } from "@untitledui/icons";
 import { CommentSheet } from "@/components/app/comment-sheet";
 import { HabitTile } from "@/components/app/habit-tile";
 import { StateSheet } from "@/components/app/state-sheet";
-import { useHabits, useLogs } from "@/hooks/use-timber";
+import { useHabits, useLogs } from "@/hooks/use-raft";
 import { deleteLog, logHabit } from "@/lib/actions";
 import { todayKey } from "@/lib/days";
 import { pickedLabels } from "@/lib/states";
 import { useToast } from "@/providers/toast-provider";
-import type { Habit } from "@/types/timber";
+import type { Habit } from "@/types/raft";
 
 interface HabitPickerProps {
     isEditing: boolean;

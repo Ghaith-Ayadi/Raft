@@ -1,4 +1,4 @@
-import type { Habit, Log } from "@/types/timber";
+import type { Habit, Log } from "@/types/raft";
 
 /** The labels of the options a state log picked, in the state's order. Options since removed are skipped. */
 export function pickedLabels(habit: Habit, log: Pick<Log, "values">): string[] {

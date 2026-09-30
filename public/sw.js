@@ -1,12 +1,12 @@
-// Timber service worker.
+// Raft service worker.
 //   - Navigations: network-first, fall back to the cached shell, so new deploys
 //     land immediately and the app still opens offline.
 //   - /assets/* (hashed JS/CSS) and /icons/*: cache-first.
 //   - /api/* (PocketBase: auth, realtime, records) and other origins: never touched.
 
 const VERSION = "v1";
-const SHELL = `timber-shell-${VERSION}`;
-const ASSETS = `timber-assets-${VERSION}`;
+const SHELL = `raft-shell-${VERSION}`;
+const ASSETS = `raft-assets-${VERSION}`;
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(SHELL).then((cache) => cache.add("/")));

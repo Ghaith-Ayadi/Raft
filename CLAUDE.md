@@ -1,17 +1,17 @@
-# Timber
+# Raft
 
 A personal habit tracker, the simplest one yet: create habits (title, emoji,
 color), tap one to log it, see the month on a calendar. Built from Genesis
 (Vite + React + Untitled UI), served by Vercel, data in PocketBase.
 
-## Everything Timber lives in this repo
+## Everything Raft lives in this repo
 
 - `src/`: the app. `pb/`: the PocketBase schema and hooks. `deploy/`: the
   compose file, env shape and reverse-proxy site for the box. Nothing about
-  Timber goes into any other repo.
+  Raft goes into any other repo.
 - The PocketBase instance runs on the self-hosted box (container
-  `pocketbase-timber`, data `/srv/timber/pb_data`). The app and its API share one
-  origin: `timber.ayadighaith.com` serves the app from Vercel and PocketBase
+  `pocketbase-raft`, data `/srv/raft/pb_data`). The app and its API share one
+  origin: `raft.ayadighaith.com` serves the app from Vercel and PocketBase
   under `/api/*` and `/_/`. `VITE_PB_URL` is that host.
 - **Schema is `pb/pb_migrations/*.js`**, never dashboard edits on production
   (`--automigrate=false`). Server logic goes in `pb/pb_hooks/`.
@@ -39,7 +39,7 @@ confirmed that exact action in the conversation. Ask first, naming the cost.
   `src/lib/pocketbase.ts`), so a habit made offline can be logged at once.
 - Deletes are soft (`deleted_at`) so every device sees them on pull; local
   copies are purged 30 days later.
-- Local-first: the UI reads Dexie only (`src/hooks/use-timber.ts`), writes go
+- Local-first: the UI reads Dexie only (`src/hooks/use-raft.ts`), writes go
   through `src/lib/actions.ts`. `src/lib/sync.ts` and `src/lib/realtime.ts` are
   the only files that know the wire format. Push habits before logs, then pull
   `updated > last pull`; a pull never overwrites an unpushed local edit.

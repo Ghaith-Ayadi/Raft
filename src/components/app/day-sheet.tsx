@@ -3,13 +3,13 @@ import { MessageTextSquare01, Trash01 } from "@untitledui/icons";
 import { CommentSheet } from "@/components/app/comment-sheet";
 import { Sheet } from "@/components/app/sheet";
 import { StateSheet } from "@/components/app/state-sheet";
-import { useHabits, useLogs } from "@/hooks/use-timber";
+import { useHabits, useLogs } from "@/hooks/use-raft";
 import { deleteLog, logHabit, restoreLog } from "@/lib/actions";
 import { dayLabel, timeLabel } from "@/lib/days";
 import { tint } from "@/lib/palette";
 import { pickedLabels } from "@/lib/states";
 import { useToast } from "@/providers/toast-provider";
-import type { Habit } from "@/types/timber";
+import type { Habit } from "@/types/raft";
 import { cx } from "@/utils/cx";
 
 interface DaySheetProps {

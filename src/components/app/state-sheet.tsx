@@ -3,7 +3,7 @@ import { Check } from "@untitledui/icons";
 import { Sheet } from "@/components/app/sheet";
 import { Button } from "@/components/base/buttons/button";
 import { tint } from "@/lib/palette";
-import type { Habit } from "@/types/timber";
+import type { Habit } from "@/types/raft";
 import { cx } from "@/utils/cx";
 
 interface StateSheetProps {
