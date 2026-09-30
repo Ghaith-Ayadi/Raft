@@ -1,9 +1,12 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Plus } from "@untitledui/icons";
+import { CommentSheet } from "@/components/app/comment-sheet";
 import { HabitTile } from "@/components/app/habit-tile";
+import { StateSheet } from "@/components/app/state-sheet";
 import { useHabits, useLogs } from "@/hooks/use-raft";
 import { deleteLog, logHabit } from "@/lib/actions";
 import { todayKey } from "@/lib/days";
+import { pickedLabels } from "@/lib/states";
 import { useToast } from "@/providers/toast-provider";
 import type { Habit } from "@/types/raft";
 
@@ -12,12 +15,14 @@ interface HabitPickerProps {
     onEdit: (habit: Habit | null) => void;
 }
 
-/** The main screen: one tap on a habit logs it. */
+/** The main screen: one tap on a habit logs it; a state asks which options first. */
 export function HabitPicker({ isEditing, onEdit }: HabitPickerProps) {
     const habits = useHabits();
     const today = todayKey();
     const todayLogs = useLogs(today, today);
     const { addToast } = useToast();
+    const [stateFor, setStateFor] = useState<Habit | null>(null);
+    const [commentFor, setCommentFor] = useState<{ logId: string; comment: string; title: string } | null>(null);
 
     const counts = useMemo(() => {
         const m = new Map<string, number>();
@@ -30,10 +35,37 @@ export function HabitPicker({ isEditing, onEdit }: HabitPickerProps) {
             onEdit(habit);
             return;
         }
-        navigator.vibrate?.(10);
-        const log = await logHabit(habit.id);
-        addToast(`${habit.emoji} ${habit.title} logged`, { label: "Undo", onAction: () => void deleteLog(log.id) });
+        if (habit.kind === "state") {
+            setStateFor(habit);
+            return;
+        }
+        await log(habit);
     };
+
+    const log = async (habit: Habit, values: string[] = []) => {
+        navigator.vibrate?.(10);
+        const entry = await logHabit(habit.id, undefined, values);
+        const name = `${habit.emoji} ${habit.title}`.trim();
+        const picked = pickedLabels(habit, entry);
+        addToast(picked.length ? `${name}: ${picked.join(", ")}` : `${name} logged`, [
+            { label: "Undo", onAction: () => void deleteLog(entry.id) },
+            { label: "Comment", onAction: () => setCommentFor({ logId: entry.id, comment: "", title: `Comment on ${name}` }) },
+        ]);
+    };
+
+    const sheets = (
+        <>
+            <StateSheet
+                habit={stateFor}
+                onClose={() => setStateFor(null)}
+                onLog={(values) => {
+                    if (stateFor) void log(stateFor, values);
+                    setStateFor(null);
+                }}
+            />
+            <CommentSheet target={commentFor} onClose={() => setCommentFor(null)} />
+        </>
+    );
 
     if (!habits.length) {
         return (
@@ -50,6 +82,7 @@ export function HabitPicker({ isEditing, onEdit }: HabitPickerProps) {
                 >
                     Add a habit
                 </button>
+                {sheets}
             </div>
         );
     }
@@ -65,8 +98,9 @@ export function HabitPicker({ isEditing, onEdit }: HabitPickerProps) {
                 className="flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-secondary text-quaternary outline-focus-ring hover:border-primary hover:text-tertiary focus-visible:outline-2 focus-visible:outline-offset-2"
             >
                 <Plus className="size-7" />
-                <span className="text-sm font-semibold">New habit</span>
+                <span className="text-sm font-semibold">New</span>
             </button>
+            {sheets}
         </div>
     );
 }

@@ -27,8 +27,12 @@ confirmed that exact action in the conversation. Ask first, naming the cost.
 
 ## Data model and sync
 
-- Collections `habits` (title, emoji, color, position) and `logs` (habit,
-  `logged_at`, `day`). Owner-scoped; a log's habit must be the caller's own.
+- Collections `habits` (kind, title, emoji, color, options, position) and
+  `logs` (habit, `logged_at`, `day`, values, comment). Owner-scoped; a log's
+  habit must be the caller's own.
+- A habit's `kind` is `habit` (one tap logs it) or `state` (a log picks one or
+  more of its `options`, `[{ id, label }]`; the log keeps the picked ids in
+  `values`). Any log can carry a free-text `comment`. The emoji is free text.
 - `day` is the local `YYYY-MM-DD` of the tap, stored, never derived: a log stays
   on its day when the phone changes time zone. Calendar queries use `day`.
 - **Ids are PocketBase record ids minted on the client** (`newId()` in

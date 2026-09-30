@@ -7,7 +7,7 @@ import type { Habit, Log } from "@/types/raft";
 // Every local write goes through here: touch Dexie, bump `updatedAt`, schedule
 // a sync. The UI never waits on the network.
 
-export type HabitDraft = Pick<Habit, "title" | "emoji" | "color">;
+export type HabitDraft = Pick<Habit, "kind" | "title" | "emoji" | "color" | "options">;
 
 export async function createHabit(draft: HabitDraft): Promise<Habit> {
     const last = await db.habits.orderBy("position").last();
@@ -28,13 +28,18 @@ export async function deleteHabit(id: string) {
     scheduleSync();
 }
 
-/** Log a habit now, or on a given past day (at local noon). */
-export async function logHabit(habitId: string, day?: string): Promise<Log> {
+/** Log a habit (or a state, with the option ids picked) now, or on a given past day (at local noon). */
+export async function logHabit(habitId: string, day?: string, values: string[] = []): Promise<Log> {
     const at = day ? noonOf(day) : new Date();
-    const log: Log = { id: newId(), habitId, loggedAt: at.getTime(), day: day ?? dayKey(at), updatedAt: Date.now() };
+    const log: Log = { id: newId(), habitId, loggedAt: at.getTime(), day: day ?? dayKey(at), values, comment: "", updatedAt: Date.now() };
     await db.logs.put(log);
     scheduleSync();
     return log;
+}
+
+export async function setLogComment(id: string, comment: string) {
+    await db.logs.update(id, { comment: comment.trim(), updatedAt: Date.now() });
+    scheduleSync();
 }
 
 export async function deleteLog(id: string) {

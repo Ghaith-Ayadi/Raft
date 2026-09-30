@@ -2,7 +2,7 @@ import type { Table } from "dexie";
 import { ClientResponseError } from "pocketbase";
 import { db } from "@/lib/db";
 import { pb, pbDateToMs } from "@/lib/pocketbase";
-import type { Habit, Log } from "@/types/raft";
+import type { Habit, Log, StateOption } from "@/types/raft";
 
 // Sync between the local Dexie cache and PocketBase.
 //
@@ -29,9 +29,11 @@ let onSyncComplete: (() => void) | null = null;
 export interface HabitRecord {
     id: string;
     user: string;
+    kind: string;
     title: string;
     emoji: string;
     color: string;
+    options: StateOption[] | null;
     position: number;
     deleted_at: string;
     created: string;
@@ -44,6 +46,8 @@ export interface LogRecord {
     habit: string;
     logged_at: string;
     day: string;
+    values: string[] | null;
+    comment: string;
     deleted_at: string;
     created: string;
     updated: string;
@@ -55,9 +59,11 @@ function habitToRecord(h: Habit, userId: string) {
     return {
         id: h.id,
         user: userId,
+        kind: h.kind,
         title: h.title,
         emoji: h.emoji,
         color: h.color,
+        options: h.options,
         position: h.position,
         deleted_at: isoOrEmpty(h.deletedAt),
     };
@@ -66,9 +72,11 @@ function habitToRecord(h: Habit, userId: string) {
 export function habitFromRecord(r: HabitRecord): Habit {
     return {
         id: r.id,
+        kind: r.kind === "state" ? "state" : "habit",
         title: r.title,
         emoji: r.emoji,
         color: r.color,
+        options: Array.isArray(r.options) ? r.options : [],
         position: r.position ?? 0,
         deletedAt: pbDateToMs(r.deleted_at) ?? undefined,
         updatedAt: pbDateToMs(r.updated) ?? Date.now(),
@@ -82,6 +90,8 @@ function logToRecord(l: Log, userId: string) {
         habit: l.habitId,
         logged_at: new Date(l.loggedAt).toISOString(),
         day: l.day,
+        values: l.values,
+        comment: l.comment,
         deleted_at: isoOrEmpty(l.deletedAt),
     };
 }
@@ -92,6 +102,8 @@ export function logFromRecord(r: LogRecord): Log {
         habitId: r.habit,
         loggedAt: pbDateToMs(r.logged_at) ?? 0,
         day: r.day,
+        values: Array.isArray(r.values) ? r.values : [],
+        comment: r.comment ?? "",
         deletedAt: pbDateToMs(r.deleted_at) ?? undefined,
         updatedAt: pbDateToMs(r.updated) ?? Date.now(),
     };
