@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { LogOut01, RefreshCw01, User01 } from "@untitledui/icons";
 import { Sheet } from "@/components/app/sheet";
+import { Avatar } from "@/components/base/avatar/avatar";
 import { Button } from "@/components/base/buttons/button";
 import { useSync } from "@/hooks/use-sync";
+import { avatarUrl, userInitials } from "@/lib/pocketbase";
 import { useAuth } from "@/providers/auth-provider";
 import { cx } from "@/utils/cx";
 
@@ -32,7 +34,12 @@ export function AccountButton() {
                 onClick={() => setIsOpen(true)}
                 className="relative cursor-pointer rounded-full p-2 text-fg-quaternary outline-focus-ring hover:bg-primary_hover focus-visible:outline-2"
             >
-                {user?.avatar ? <img src={user.avatar} alt="" className="size-6 rounded-full" /> : <User01 className="size-6" />}
+                {user ? (
+                    // Keyed by URL so a new avatar gets a fresh load, not the last one's failed state.
+                    <Avatar key={avatarUrl(user) ?? "none"} size="xs" src={avatarUrl(user)} initials={userInitials(user)} />
+                ) : (
+                    <User01 className="size-6" />
+                )}
                 {!isLoading && (
                     <span className={cx("absolute right-1.5 bottom-1.5 size-2.5 rounded-full ring-2 ring-bg-primary", user ? "bg-success-solid" : "bg-warning-solid")} />
                 )}

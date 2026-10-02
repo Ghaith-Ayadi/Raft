@@ -19,6 +19,18 @@ export type PbUser = RecordModel & {
     avatar?: string;
 };
 
+/** The user's avatar as a URL; `avatar` itself is only a PocketBase file name. */
+export function avatarUrl(user: PbUser): string | null {
+    return user.avatar ? pb.files.getURL(user, user.avatar, { thumb: "100x100" }) : null;
+}
+
+/** Up to two initials from the name, else the first letter of the email. */
+export function userInitials(user: PbUser): string {
+    const words = (user.name ?? "").trim().split(/\s+/).filter(Boolean);
+    if (words.length) return (words[0][0] + (words.length > 1 ? words[words.length - 1][0] : "")).toUpperCase();
+    return (user.email?.[0] ?? "?").toUpperCase();
+}
+
 /** PocketBase date strings are "YYYY-MM-DD HH:mm:ss.sssZ"; Safari's Date needs the T. */
 export function pbDateToMs(value: string | null | undefined): number | null {
     if (!value) return null;
