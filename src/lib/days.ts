@@ -18,6 +18,19 @@ export function noonOf(key: string): Date {
     return new Date(y, m - 1, d, 12);
 }
 
+/** The local instant of "HH:MM" on a day key. */
+export function atTime(key: string, time: string): Date {
+    const [y, m, d] = key.split("-").map(Number);
+    const [hh, mm] = time.split(":").map(Number);
+    return new Date(y, m - 1, d, hh || 0, mm || 0);
+}
+
+/** "HH:MM" (24h) of an instant, the value an `<input type="time">` takes. */
+export function timeValue(ms: number): string {
+    const d = new Date(ms);
+    return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
 export interface MonthCell {
     key: string;
     date: Date;

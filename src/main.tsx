@@ -1,5 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { trackVisualViewport } from "@/lib/viewport";
 import { AppPage } from "@/pages/app-page";
 import { AuthProvider } from "@/providers/auth-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
@@ -14,6 +15,8 @@ if ("serviceWorker" in navigator && import.meta.env.PROD) {
         });
     });
 }
+
+trackVisualViewport();
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Calendar, Check, Edit05, Grid01 } from "@untitledui/icons";
+import { Calendar, Rows01 } from "@untitledui/icons";
 import { AccountButton } from "@/components/app/account-button";
 import { HabitEditor } from "@/components/app/habit-editor";
 import { HabitPicker } from "@/components/app/habit-picker";
@@ -10,14 +10,13 @@ import { cx } from "@/utils/cx";
 
 type Tab = "log" | "calendar";
 
-const TABS: { id: Tab; label: string; icon: typeof Grid01 }[] = [
-    { id: "log", label: "Log", icon: Grid01 },
+const TABS: { id: Tab; label: string; icon: typeof Rows01 }[] = [
+    { id: "log", label: "Log", icon: Rows01 },
     { id: "calendar", label: "Calendar", icon: Calendar },
 ];
 
 export function AppPage() {
     const [tab, setTab] = useState<Tab>("log");
-    const [isEditing, setIsEditing] = useState(false);
     const [editor, setEditor] = useState<{ habit: Habit | null } | null>(null);
 
     return (
@@ -43,26 +42,13 @@ export function AppPage() {
                     </nav>
 
                     <div className="ml-auto flex items-center gap-1">
-                        {tab === "log" && (
-                            <button
-                                type="button"
-                                onClick={() => setIsEditing((e) => !e)}
-                                className={cx(
-                                    "flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-semibold",
-                                    isEditing ? "bg-brand-solid text-white" : "text-tertiary hover:bg-primary_hover",
-                                )}
-                            >
-                                {isEditing ? <Check className="size-4" /> : <Edit05 className="size-4" />}
-                                {isEditing ? "Done" : "Edit"}
-                            </button>
-                        )}
                         <AccountButton />
                     </div>
                 </div>
             </header>
 
             <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col pb-[calc(env(safe-area-inset-bottom)+4.5rem)] sm:pb-8">
-                {tab === "log" ? <HabitPicker isEditing={isEditing} onEdit={(habit) => setEditor({ habit })} /> : <MonthCalendar />}
+                {tab === "log" ? <HabitPicker onEdit={(habit) => setEditor({ habit })} /> : <MonthCalendar />}
             </main>
 
             <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-secondary bg-primary pb-[env(safe-area-inset-bottom)] sm:hidden">
