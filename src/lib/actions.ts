@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { dayKey, noonOf } from "@/lib/days";
+import { atTime, dayKey, noonOf } from "@/lib/days";
 import { newId } from "@/lib/pocketbase";
 import { scheduleSync } from "@/lib/sync";
 import type { Habit, Log } from "@/types/raft";
@@ -39,6 +39,14 @@ export async function logHabit(habitId: string, day?: string, values: string[] =
 
 export async function setLogComment(id: string, comment: string) {
     await db.logs.update(id, { comment: comment.trim(), updatedAt: Date.now() });
+    scheduleSync();
+}
+
+/** Move a log to another time of its own day. The day never changes: it is the log's stored calendar day. */
+export async function setLogTime(id: string, time: string) {
+    const log = await db.logs.get(id);
+    if (!log) return;
+    await db.logs.update(id, { loggedAt: atTime(log.day, time).getTime(), updatedAt: Date.now() });
     scheduleSync();
 }
 

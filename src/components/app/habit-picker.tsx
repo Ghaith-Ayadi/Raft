@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { Plus } from "@untitledui/icons";
 import { CommentSheet } from "@/components/app/comment-sheet";
-import { HabitTile } from "@/components/app/habit-tile";
+import { HabitRow } from "@/components/app/habit-row";
+import { LogList } from "@/components/app/log-list";
 import { StateSheet } from "@/components/app/state-sheet";
 import { useHabits, useLogs } from "@/hooks/use-raft";
 import { deleteLog, logHabit } from "@/lib/actions";
@@ -11,12 +12,11 @@ import { useToast } from "@/providers/toast-provider";
 import type { Habit } from "@/types/raft";
 
 interface HabitPickerProps {
-    isEditing: boolean;
     onEdit: (habit: Habit | null) => void;
 }
 
-/** The main screen: one tap on a habit logs it; a state asks which options first. */
-export function HabitPicker({ isEditing, onEdit }: HabitPickerProps) {
+/** The main screen: one tap on a habit logs it (a state asks which options first), a long press edits it. Today's logs sit below. */
+export function HabitPicker({ onEdit }: HabitPickerProps) {
     const habits = useHabits();
     const today = todayKey();
     const todayLogs = useLogs(today, today);
@@ -24,17 +24,10 @@ export function HabitPicker({ isEditing, onEdit }: HabitPickerProps) {
     const [stateFor, setStateFor] = useState<Habit | null>(null);
     const [commentFor, setCommentFor] = useState<{ logId: string; comment: string; title: string } | null>(null);
 
-    const counts = useMemo(() => {
-        const m = new Map<string, number>();
-        for (const l of todayLogs) m.set(l.habitId, (m.get(l.habitId) ?? 0) + 1);
-        return m;
-    }, [todayLogs]);
+    const habitById = useMemo(() => new Map(habits.map((h) => [h.id, h])), [habits]);
+    const visibleToday = todayLogs.filter((l) => habitById.has(l.habitId));
 
     const press = async (habit: Habit) => {
-        if (isEditing) {
-            onEdit(habit);
-            return;
-        }
         if (habit.kind === "state") {
             setStateFor(habit);
             return;
@@ -88,18 +81,32 @@ export function HabitPicker({ isEditing, onEdit }: HabitPickerProps) {
     }
 
     return (
-        <div className="grid grid-cols-2 gap-3 p-4 sm:grid-cols-3 md:grid-cols-4">
-            {habits.map((h) => (
-                <HabitTile key={h.id} habit={h} todayCount={counts.get(h.id) ?? 0} isEditing={isEditing} onPress={() => void press(h)} />
-            ))}
-            <button
-                type="button"
-                onClick={() => onEdit(null)}
-                className="flex aspect-square cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-secondary text-quaternary outline-focus-ring hover:border-primary hover:text-tertiary focus-visible:outline-2 focus-visible:outline-offset-2"
-            >
-                <Plus className="size-7" />
-                <span className="text-sm font-semibold">New</span>
-            </button>
+        <div className="flex flex-col gap-6 p-4">
+            <div className="flex flex-col gap-2">
+                {habits.map((h) => (
+                    <HabitRow key={h.id} habit={h} onPress={() => void press(h)} onLongPress={() => onEdit(h)} />
+                ))}
+                <button
+                    type="button"
+                    onClick={() => onEdit(null)}
+                    className="flex cursor-pointer items-center gap-3 rounded-2xl border-2 border-dashed border-secondary px-3 py-2.5 text-quaternary outline-focus-ring hover:border-primary hover:text-tertiary focus-visible:outline-2 focus-visible:outline-offset-2"
+                >
+                    <span className="flex size-11 items-center justify-center">
+                        <Plus className="size-6" />
+                    </span>
+                    <span className="text-base font-semibold">New habit</span>
+                </button>
+                <p className="px-1 text-xs text-quaternary">Tap to log. Hold to edit.</p>
+            </div>
+
+            <section className="flex flex-col gap-2 border-t border-secondary pt-4">
+                <h2 className="px-1 text-sm font-semibold text-secondary">Today</h2>
+                {visibleToday.length ? (
+                    <LogList logs={visibleToday} habitById={habitById} />
+                ) : (
+                    <p className="px-1 text-sm text-tertiary">Nothing logged yet.</p>
+                )}
+            </section>
             {sheets}
         </div>
     );
